@@ -1,0 +1,64 @@
+--- linux-2.6.18/include/asm-alpha/param.h.orig	2011-12-30 18:01:35.075639975 +0100
++++ linux-2.6.18/include/asm-alpha/param.h	2012-01-02 13:15:30.568106114 +0100
+@@ -5,6 +5,12 @@
+    hardware ignores reprogramming.  We also need userland buy-in to the 
+    change in HZ, since this is visible in the wait4 resources etc.  */
+ 
++#ifdef __KERNEL__
++#define HZ CONFIG_HZ
++#define USER_HZ HZ
++#else
++#define HZ 100
++#endif
+ 
+ #ifndef HZ
+ # ifndef CONFIG_ALPHA_RAWHIDE
+--- linux-2.6.18/include/asm-h8300/param.h.orig	2011-12-30 18:01:35.092306552 +0100
++++ linux-2.6.18/include/asm-h8300/param.h	2012-01-02 13:14:51.664983538 +0100
+@@ -7,8 +7,11 @@
+ #endif
+ 
+ #ifdef __KERNEL__
+-#define	USER_HZ		HZ
+-#define	CLOCKS_PER_SEC	(USER_HZ)
++#define HZ CONFIG_HZ
++#define USER_HZ HZ
++#define CLOCKS_PER_SEC (USER_HZ)
++#else
++#define HZ 100
+ #endif
+ 
+ #define EXEC_PAGESIZE	4096
+--- linux-2.6.18/include/asm-um/param.h.orig	2011-12-30 18:01:35.078973291 +0100
++++ linux-2.6.18/include/asm-um/param.h	2012-01-02 13:14:31.771757975 +0100
+@@ -13,6 +13,8 @@
+ #define HZ 100
+ #define USER_HZ	100	   /* .. some user interfaces are in "ticks" */
+ #define CLOCKS_PER_SEC (USER_HZ)  /* frequency at which times() counts */
++#else
++#define HZ 100
+ #endif
+ 
+ #endif
+--- linux-2.6.18/include/asm-v850/param.h.orig	2011-12-30 18:01:35.078973291 +0100
++++ linux-2.6.18/include/asm-v850/param.h	2012-01-02 13:14:15.691845088 +0100
+@@ -27,6 +27,8 @@
+ #ifdef __KERNEL__
+ # define USER_HZ	100
+ # define CLOCKS_PER_SEC	USER_HZ
++#else
++#define HZ 100
+ #endif
+ 
+ #endif /* __V850_PARAM_H__ */
+--- linux-2.6.18/include/asm-xtensa/param.h.orig	2011-12-30 18:01:35.078973291 +0100
++++ linux-2.6.18/include/asm-xtensa/param.h	2012-01-02 13:14:01.891919849 +0100
+@@ -17,6 +17,8 @@
+ # define HZ		100		/* internal timer frequency */
+ # define USER_HZ	100		/* for user interfaces in "ticks" */
+ # define CLOCKS_PER_SEC (USER_HZ)	/* frequnzy at which times() counts */
++#else
++#define HZ 100
+ #endif
+ 
+ #define EXEC_PAGESIZE	(1 << XCHAL_MMU_MIN_PTE_PAGE_SIZE)
